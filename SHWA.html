@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schwa Lab Ultimate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    * {
+      font-family: 'Outfit', sans-serif;
+    }
+    
+    /* Light Mode */
+    body.light-mode {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #1e293b;
+    }
+    
+    /* Dark Mode */
+    body.dark-mode {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #f1f5f9;
+    }
+    
+    .subtle-border {
+      border: 1px solid;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .light-mode .subtle-border {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(139, 92, 246, 0.2);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+    
+    .dark-mode .subtle-border {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(139, 92, 246, 0.3);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    }
+    
+    .glass-card {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .light-mode .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(139, 92, 246, 0.15);
+    }
+    
+    .dark-mode .glass-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+    
+    .elegant-accent {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.05));
+      border-left: 3px solid #8b5cf6;
+    }
+    
+    .pulse-neon {
+      animation: pulseNeon 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulseNeon {
+      0%, 100% { 
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        transform: scale(1);
+      }
+      50% { 
+        box-shadow: 0 0 25px rgba(139, 92, 246, 0.6);
+        transform: scale(1.15);
+      }
+    }
+    
+    .letter-btn {
+      transition: all 0.2s ease;
+    }
+    
+    .light-mode .letter-btn:hover {
+      transform: scale(1.05);
+      background: rgba(139, 92, 246, 0.15);
+    }
+    
+    .dark-mode .letter-btn:hover {
+      transform: scale(1.05);
+      background: rgba(139, 92, 246, 0.25);
+    }
+    
+    .letter-btn.correct {
+      background: linear-gradient(135deg, #10b981, #059669) !important;
+      color: white !important;
+      transform: scale(1.1);
+    }
+    
+    .letter-btn.wrong {
+      background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+      color: white !important;
+      animation: shake 0.5s ease;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    
+    .res-correct {
+      background: #10b981 !important;
+      color: white !important;
+      border-color: #059669 !important;
+    }
+    
+    .res-wrong {
+      background: #ef4444 !important;
+      color: white !important;
+      border-color: #dc2626 !important;
+    }
+    
+    .nav-item {
+      transition: all 0.2s ease;
+      border-radius: 12px;
+    }
+    
+    .light-mode .nav-item:hover {
+      background: rgba(139, 92, 246, 0.1);
+    }
+    
+    .dark-mode .nav-item:hover {
+      background: rgba(139, 92, 246, 0.2);
+    }
+    
+    .light-mode .text-muted {
+      color: #64748b;
+    }
+    
+    .dark-mode .text-muted {
+      color: #94a3b8;
+    }
+    
+    .overlay {
+      background: rgba(2, 6, 23, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .drawer {
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .drawer.open {
+      transform: translateX(0);
+    }
+    
+    .whatsapp-btn {
+      background: #25D366;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      animation: confettiFall 3s ease-out forwards;
+    }
+    
+    @keyframes confettiFall {
+      0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100%) rotate(720deg); opacity: 0; }
+    }
+    
+    .audio-btn {
+      transition: all 0.2s ease;
+    }
+    
+    .audio-btn:hover {
+      transform: scale(1.05);
+    }
+    
+    .audio-btn.playing {
+      animation: pulse 0.5s ease infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .mouth-svg {
+      filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+    }
+    
+    .schwa-point {
+      fill: #8b5cf6;
+      animation: pulseNeon 2s ease-in-out infinite;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-[#020617] text-white overflow-auto">
+  <div id="app" class="min-h-full w-full flex flex-col"><!-- Header -->
+   <header class="glass-card m-4 p-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+     <div class="w-10 h-10 rounded-full bg-gradient-to-r from-violet-500 to-cyan-500 flex items-center justify-center text-xl font-bold">
+      ə
+     </div>
+     <div>
+      <h1 id="app-title" class="text-xl md:text-2xl font-bold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Schwa Lab Ultimate</h1>
+      <p class="text-xs text-muted">by Teacher Netza</p>
+     </div>
+    </div>
+    <div class="flex items-center gap-2"><button id="theme-toggle" class="p-2 rounded-lg glass-card transition hover:scale-105" aria-label="Toggle theme">
+      <svg id="theme-icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+      <svg id="theme-icon-moon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+      </svg></button> <button id="menu-toggle" class="p-2 rounded-lg glass-card transition hover:scale-105">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg></button>
+    </div>
+   </header><!-- Main Content -->
+   <main class="flex-1 m-4"><!-- Inicio Tab -->
+    <section id="tab-inicio" class="tab-content">
+     <div class="subtle-border">
+      <div class="p-6 md:p-8">
+       <div class="flex flex-col lg:flex-row items-center gap-8"><!-- Mouth Diagram -->
+        <div class="flex-shrink-0">
+         <svg class="mouth-svg w-64 h-64 md:w-80 md:h-80" viewbox="0 0 200 200"><ellipse cx="100" cy="100" rx="90" ry="70" fill="none" stroke="#8b5cf6" stroke-width="3" /> <ellipse cx="100" cy="100" rx="70" ry="50" fill="rgba(139, 92, 246, 0.1)" stroke="#06b6d4" stroke-width="2" /> <path d="M 40 120 Q 100 150 160 120 Q 140 100 100 95 Q 60 100 40 120" fill="rgba(239, 68, 68, 0.3)" stroke="#ef4444" stroke-width="1" /> <path d="M 35 75 Q 100 60 165 75" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity="0.5" /> <path d="M 40 125 Q 100 135 160 125" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.5" /> <circle class="schwa-point pulse-neon" cx="100" cy="100" r="12" fill="#8b5cf6" /> <text x="100" y="105" text-anchor="middle" fill="white" font-size="14" font-weight="bold">
+           ə
+          </text>
+         </svg>
+        </div><!-- Info -->
+        <div class="flex-1 space-y-6">
+         <h2 class="text-2xl md:text-3xl font-bold">¡Bienvenido al Laboratorio del Sonido Schwa! 🎯</h2>
+         <div class="space-y-4">
+          <p class="text-lg text-muted">La <span class="text-violet-500 font-semibold">Schwa /ə/</span> es el sonido de vocal más común en inglés, ¡pero muchos estudiantes ni siquiera saben que existe!</p>
+          <div class="glass-card p-4 elegant-accent">
+           <h3 class="font-semibold text-violet-500 mb-2">🎯 Objetivos de Aprendizaje:</h3>
+           <ul class="space-y-2 text-sm md:text-base text-muted">
+            <li>✅ Identificar el sonido Schwa en palabras comunes</li>
+            <li>✅ Comprender las formas débiles en el habla conectada</li>
+            <li>✅ Mejorar la comprensión auditiva</li>
+            <li>✅ Sonar más natural al hablar inglés</li>
+           </ul>
+          </div>
+          <div class="glass-card p-4 elegant-accent">
+           <h3 class="font-semibold text-cyan-500 mb-2">💡 ¿Sabías que...?</h3>
+           <p class="text-sm md:text-base text-muted">¡La Schwa aparece en casi todas las oraciones en inglés! Palabras como <strong>"the", "a", "of", "to"</strong> frecuentemente contienen este sonido de vocal neutral.</p>
+          </div>
+         </div>
+         <div class="flex flex-wrap gap-3"><button onclick="speak('uh')" class="px-6 py-3 bg-gradient-to-r from-violet-500 to-cyan-500 rounded-xl font-semibold hover:opacity-90 transition flex items-center gap-2 text-white"> <span>🔊</span> Escuchar Sonido /ə/ </button> <button onclick="speak('The Schwa is the most common vowel sound in English. It sounds like uh.')" class="px-6 py-3 glass-card hover:scale-105 rounded-xl font-semibold transition flex items-center gap-2"> <span>📖</span> Escuchar Introducción </button>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Finder Lab Tab -->
+    <section id="tab-finder" class="tab-content hidden">
+     <div class="subtle-border">
+      <div class="p-6">
+       <div class="text-center mb-6">
+        <h2 class="text-2xl font-bold mb-2">🔍 Schwa Finder Lab</h2>
+        <p class="text-muted">Click on the letter that contains the Schwa /ə/ sound</p>
+        <div class="mt-4 flex justify-center gap-4"><span class="text-violet-500">Score: <strong id="finder-score">0</strong>/10</span> <span class="text-cyan-500">Word: <strong id="finder-current">1</strong>/10</span>
+        </div>
+       </div>
+       <div id="finder-word" class="flex flex-wrap justify-center gap-2 mb-6 text-3xl md:text-5xl font-bold"><!-- Letters will be inserted here -->
+       </div>
+       <div class="flex justify-center gap-4"><button onclick="speak(finderWords[currentFinderIndex].word)" class="px-4 py-2 glass-card transition rounded-lg flex items-center gap-2"> 🔊 Listen </button> <button id="finder-next" onclick="nextFinderWord()" class="px-6 py-2 bg-gradient-to-r from-violet-500 to-cyan-500 rounded-lg font-semibold hover:opacity-90 transition hidden text-white"> Next Word → </button>
+       </div>
+       <div id="finder-feedback" class="mt-4 text-center text-lg font-semibold"></div>
+      </div>
+     </div>
+    </section><!-- Weak Forms Tab -->
+    <section id="tab-weak" class="tab-content hidden">
+     <div class="subtle-border">
+      <div class="p-6">
+       <h2 class="text-2xl font-bold mb-2 text-center">📉 Formas Débiles</h2>
+       <p class="text-muted text-center mb-6">En el habla natural, estas pequeñas palabras se reducen a Schwa</p>
+       <div class="grid md:grid-cols-2 gap-4">
+        <div class="glass-card p-4">
+         <div class="flex items-center justify-between mb-3"><span class="text-violet-500 font-semibold">Forma Fuerte</span> <span class="text-cyan-500 font-semibold">Forma Débil</span>
+         </div>
+         <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 glass-card rounded-lg">
+           <div><span class="font-bold">OF</span> <span class="text-muted text-sm ml-2">/ɒv/</span>
+           </div>
+           <div><span class="font-bold text-cyan-500">əv</span> <button onclick="speak('Cup of tea')" class="ml-2 p-1 glass-card rounded">🔊</button>
+           </div>
+          </div>
+          <div class="flex items-center justify-between p-3 glass-card rounded-lg">
+           <div><span class="font-bold">TO</span> <span class="text-muted text-sm ml-2">/tuː/</span>
+           </div>
+           <div><span class="font-bold text-cyan-500">tə</span> <button onclick="speak('Go to school')" class="ml-2 p-1 glass-card rounded">🔊</button>
+           </div>
+          </div>
+          <div class="flex items-center justify-between p-3 glass-card rounded-lg">
+           <div><span class="font-bold">A</span> <span class="text-muted text-sm ml-2">/eɪ/</span>
+           </div>
+           <div><span class="font-bold text-cyan-500">ə</span> <button onclick="speak('Get a coffee')" class="ml-2 p-1 glass-card rounded">🔊</button>
+           </div>
+          </div>
+          <div class="flex items-center justify-between p-3 glass-card rounded-lg">
+           <div><span class="font-bold">THE</span> <span class="text-muted text-sm ml-2">/ðiː/</span>
+           </div>
+           <div><span class="font-bold text-cyan-500">ðə</span> <button onclick="speak('In the morning')" class="ml-2 p-1 glass-card rounded">🔊</button>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="glass-card p-4">
+         <h3 class="font-semibold text-violet-500 mb-3">Ejemplos en Oraciones</h3>
+         <div class="space-y-3">
+          <div class="p-3 glass-card rounded-lg">
+           <p class="mb-2">"A cup <span class="text-cyan-500">of</span> coffee"</p><button onclick="speak('A cup of coffee')" class="text-sm px-3 py-1 glass-card rounded flex items-center gap-1"> 🔊 Listen </button>
+          </div>
+          <div class="p-3 glass-card rounded-lg">
+           <p class="mb-2">"I need <span class="text-cyan-500">to</span> go"</p><button onclick="speak('I need to go')" class="text-sm px-3 py-1 glass-card rounded flex items-center gap-1"> 🔊 Listen </button>
+          </div>
+          <div class="p-3 glass-card rounded-lg">
+           <p class="mb-2">"It was <span class="text-cyan-500">a</span> great day"</p><button onclick="speak('It was a great day')" class="text-sm px-3 py-1 glass-card rounded flex items-center gap-1"> 🔊 Listen </button>
+          </div>
+          <div class="p-3 glass-card rounded-lg">
+           <p class="mb-2">"<span class="text-cyan-500">The</span> weather is nice"</p><button onclick="speak('The weather is nice')" class="text-sm px-3 py-1 glass-card rounded flex items-center gap-1"> 🔊 Listen </button>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Audio Quiz Tab -->
+    <section id="tab-quiz" class="tab-content hidden">
+     <div class="subtle-border">
+      <div class="p-6">
+       <div class="text-center mb-6">
+        <h2 class="text-2xl font-bold mb-2">🎧 Quiz de Audio</h2>
+        <p class="text-muted">Escucha y selecciona la palabra con el sonido Schwa</p>
+        <div class="mt-4 flex justify-center gap-4"><span class="text-violet-500">Puntos: <strong id="quiz-score">0</strong>/10</span> <span class="text-cyan-500">Pregunta: <strong id="quiz-current">1</strong>/10</span>
+        </div>
+       </div>
+       <div id="quiz-question" class="text-center mb-6">
+        <p class="text-lg text-muted mb-4" id="quiz-prompt">Which word contains the Schwa /ə/ sound?</p>
+        <div id="quiz-options" class="grid grid-cols-2 gap-3 max-w-md mx-auto"><!-- Options will be inserted here -->
+        </div>
+       </div>
+       <div class="flex justify-center"><button id="quiz-next" onclick="nextQuizQuestion()" class="px-6 py-2 bg-gradient-to-r from-violet-600 to-cyan-600 rounded-lg font-semibold hover:opacity-90 transition hidden"> Next Question → </button>
+       </div>
+       <div id="quiz-feedback" class="mt-4 text-center text-lg font-semibold"></div>
+      </div>
+     </div>
+    </section><!-- Blind Dictation Tab -->
+    <section id="tab-dictation" class="tab-content hidden">
+     <div class="subtle-border">
+      <div class="p-6">
+       <h2 class="text-2xl font-bold mb-2 text-center">✍️ Dictado a Ciegas</h2>
+       <p class="text-muted text-center mb-6">Escucha con atención y escribe lo que oyes</p>
+       <div class="max-w-xl mx-auto space-y-6">
+        <div class="flex justify-center gap-4"><button onclick="playDictation()" class="px-6 py-3 bg-gradient-to-r from-violet-500 to-cyan-500 rounded-xl font-semibold hover:opacity-90 transition flex items-center gap-2 text-white"> 🔊 Play Audio </button> <button onclick="playDictation()" class="px-4 py-3 glass-card transition rounded-xl"> 🔄 Repeat </button>
+        </div>
+        <div><label for="dictation-input" class="block text-sm text-muted mb-2">Type what you hear:</label> <textarea id="dictation-input" class="w-full p-4 glass-card rounded-xl placeholder-gray-500 focus:outline-none focus:border-violet-500 resize-none" rows="3" placeholder="Type the sentence here..."></textarea>
+        </div><button onclick="checkDictation()" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-violet-500 rounded-xl font-semibold hover:opacity-90 transition text-white"> Check My Answer </button>
+        <div id="dictation-result" class="hidden">
+         <div class="glass-card p-4 border-l-4" id="dictation-card">
+          <h3 class="font-semibold mb-2" id="dictation-title"></h3>
+          <div class="space-y-2">
+           <p><span class="text-muted">Tu respuesta:</span> <span id="dictation-user"></span></p>
+           <p><span class="text-muted">Respuesta correcta:</span> <span id="dictation-correct" class="text-cyan-500"></span></p>
+           <p id="dictation-accuracy" class="text-sm text-muted"></p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main><!-- Footer -->
+   <footer class="glass-card m-4 p-6">
+    <div class="text-center space-y-3">
+     <div class="flex items-center justify-center gap-2 text-lg font-semibold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent"><span>ə</span> <span>Schwa Lab Ultimate</span>
+     </div>
+     <p class="text-gray-400 text-sm"><span id="contact-email">teacher.netza.varo@gmail.com</span></p>
+     <p class="text-gray-500 text-sm"><span id="location-text">Tepic, Nayarit | México</span></p>
+     <p class="text-gray-600 text-xs">© 2026 Teacher Netza | Licensed under GNU GPL v3.0</p>
+    </div>
+   </footer><!-- WhatsApp Button --> <a href="https://wa.me/523231116425?text=Hola%20Netza%2C%20me%20encantó%20tu%20Schwa%20Lab.%20Quiero%20clases." target="_blank" rel="noopener noreferrer" class="whatsapp-btn fixed bottom-6 left-6 w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition z-50">
+    <svg class="w-8 h-8" fill="white" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg></a> <!-- Drawer Overlay -->
+   <div id="drawer-overlay" class="overlay fixed inset-0 z-40 hidden" onclick="toggleDrawer()"></div><!-- Drawer -->
+   <div id="drawer" class="drawer fixed top-0 right-0 h-full w-80 max-w-full glass-card z-50 p-6 overflow-y-auto">
+    <div class="flex items-center justify-between mb-6">
+     <h2 class="text-xl font-bold">Navegación</h2><button onclick="toggleDrawer()" class="p-2 glass-card rounded-lg transition hover:scale-105">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg></button>
+    </div>
+    <nav class="space-y-2"><button onclick="switchTab('inicio'); toggleDrawer();" class="nav-item w-full p-4 text-left transition flex items-center gap-3"> <span class="text-2xl">🏠</span>
+      <div>
+       <div class="font-semibold">
+        Inicio
+       </div>
+       <div class="text-xs text-muted">
+        Introduction to Schwa
+       </div>
+      </div></button> <button onclick="switchTab('finder'); toggleDrawer();" class="nav-item w-full p-4 text-left transition flex items-center gap-3"> <span class="text-2xl">🔍</span>
+      <div>
+       <div class="font-semibold">
+        Finder Lab
+       </div>
+       <div class="text-xs text-muted">
+        Interactive word game
+       </div>
+      </div></button> <button onclick="switchTab('weak'); toggleDrawer();" class="nav-item w-full p-4 text-left transition flex items-center gap-3"> <span class="text-2xl">📉</span>
+      <div>
+       <div class="font-semibold">
+        Formas Débiles
+       </div>
+       <div class="text-xs text-muted">
+        Reduced pronunciations
+       </div>
+      </div></button> <button onclick="switchTab('quiz'); toggleDrawer();" class="nav-item w-full p-4 text-left transition flex items-center gap-3"> <span class="text-2xl">🎧</span>
+      <div>
+       <div class="font-semibold">
+        Quiz de Audio
+       </div>
+       <div class="text-xs text-muted">
+        Test your listening
+       </div>
+      </div></button> <button onclick="switchTab('dictation'); toggleDrawer();" class="nav-item w-full p-4 text-left transition flex items-center gap-3"> <span class="text-2xl">✍️</span>
+      <div>
+       <div class="font-semibold">
+        Dictado a Ciegas
+       </div>
+       <div class="text-xs text-muted">
+        Practice transcription
+       </div>
+      </div></button>
+    </nav>
+    <div class="mt-8 pt-6 border-t border-violet-500/30">
+     <h3 class="text-sm text-muted mb-3">Tips Rápidos</h3>
+     <div class="space-y-3 text-sm text-muted">
+      <p>💡 La Schwa /ə/ siempre es átona</p>
+      <p>💡 Es el sonido de vocal "perezoso"</p>
+      <p>💡 Practica con discurso conectado</p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Default Configuration
+    const defaultConfig = {
+      app_title: 'Schwa Lab Ultimate',
+      contact_email: 'teacher.netza.varo@gmail.com',
+      location_text: 'Tepic, Nayarit | México',
+      primary_color: '#8b5cf6',
+      secondary_color: '#06b6d4',
+      background_color: '#0f172a',
+      text_color: '#f1f5f9',
+      accent_color: '#10b981'
+    };
+
+    let config = { ...defaultConfig };
+
+    // Theme Management
+    function initTheme() {
+      const savedTheme = localStorage.getItem('schwa-theme') || 'dark';
+      document.body.className = savedTheme === 'dark' ? 'h-full dark-mode overflow-auto' : 'h-full light-mode overflow-auto';
+      updateThemeIcon(savedTheme);
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.body.className = newTheme === 'dark' ? 'h-full dark-mode overflow-auto' : 'h-full light-mode overflow-auto';
+      localStorage.setItem('schwa-theme', newTheme);
+      updateThemeIcon(newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+      const sunIcon = document.getElementById('theme-icon-sun');
+      const moonIcon = document.getElementById('theme-icon-moon');
+      
+      if (theme === 'dark') {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      } else {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      }
+    }
+
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+    // Speech Synthesis
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    // Tab Navigation
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+      
+      const targetTab = document.getElementById(`tab-${tabName}`);
+      if (targetTab) targetTab.classList.remove('hidden');
+    }
+
+    // Drawer Toggle
+    function toggleDrawer() {
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawer-overlay');
+      drawer.classList.toggle('open');
+      overlay.classList.toggle('hidden');
+    }
+
+    document.getElementById('menu-toggle').addEventListener('click', toggleDrawer);
+
+    // Finder Lab Data
+    const finderWords = [
+      { word: 'BANANA', schwa: [1, 3, 5] },
+      { word: 'ABOUT', schwa: [0] },
+      { word: 'SOFA', schwa: [3] },
+      { word: 'AGO', schwa: [0] },
+      { word: 'PROBLEM', schwa: [4] },
+      { word: 'SUPPORT', schwa: [1] },
+      { word: 'TEACHER', schwa: [5] },
+      { word: 'TODAY', schwa: [1] },
+      { word: 'CHOCOLATE', schwa: [4, 7] },
+      { word: 'FAMILY', schwa: [1] }
+    ];
+
+    let currentFinderIndex = 0;
+    let finderScore = 0;
+    let finderAnswered = false;
+
+    function renderFinderWord() {
+      const container = document.getElementById('finder-word');
+      const word = finderWords[currentFinderIndex].word;
+      container.innerHTML = '';
+      finderAnswered = false;
+      
+      document.getElementById('finder-next').classList.add('hidden');
+      document.getElementById('finder-feedback').textContent = '';
+      document.getElementById('finder-current').textContent = currentFinderIndex + 1;
+      
+      word.split('').forEach((letter, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'letter-btn w-12 h-14 md:w-16 md:h-20 glass-card rounded-lg flex items-center justify-center hover:neon-glow transition';
+        btn.textContent = letter;
+        btn.onclick = () => checkFinderLetter(index, btn);
+        container.appendChild(btn);
+      });
+    }
+
+    function checkFinderLetter(index, btn) {
+      if (finderAnswered) return;
+      
+      const schwaPositions = finderWords[currentFinderIndex].schwa;
+      const feedback = document.getElementById('finder-feedback');
+      
+      if (schwaPositions.includes(index)) {
+        btn.classList.add('correct');
+        finderScore++;
+        document.getElementById('finder-score').textContent = finderScore;
+        feedback.textContent = '🎉 ¡Correcto! ¡Ese es el sonido Schwa!';
+        feedback.className = 'mt-4 text-center text-lg font-semibold text-green-400';
+        finderAnswered = true;
+        showConfetti();
+        document.getElementById('finder-next').classList.remove('hidden');
+      } else {
+        btn.classList.add('wrong');
+        feedback.textContent = '❌ ¡Intenta de nuevo! Escucha con atención.';
+        feedback.className = 'mt-4 text-center text-lg font-semibold text-red-400';
+        setTimeout(() => btn.classList.remove('wrong'), 500);
+      }
+    }
+
+    function nextFinderWord() {
+      currentFinderIndex++;
+      if (currentFinderIndex >= finderWords.length) {
+        const feedback = document.getElementById('finder-feedback');
+        feedback.textContent = `🏆 ¡Juego Completado! Puntuación Final: ${finderScore}/10`;
+        feedback.className = 'mt-4 text-center text-lg font-semibold text-violet-500';
+        document.getElementById('finder-word').innerHTML = '<p class="text-2xl">¡Excelente trabajo! 🎊</p>';
+        document.getElementById('finder-next').classList.add('hidden');
+      } else {
+        renderFinderWord();
+      }
+    }
+
+    function showConfetti() {
+      const colors = ['#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444'];
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+
+    // Quiz Data
+    const quizQuestions = [
+      { options: ['BANANA', 'APPLE', 'GRAPE', 'PEACH'], correct: 0 },
+      { options: ['STRONG', 'ABOUT', 'BLUE', 'GREEN'], correct: 1 },
+      { options: ['CAT', 'DOG', 'SOFA', 'BIRD'], correct: 2 },
+      { options: ['AGO', 'NOW', 'HERE', 'THERE'], correct: 0 },
+      { options: ['BIG', 'SMALL', 'PROBLEM', 'LARGE'], correct: 2 },
+      { options: ['SUPPORT', 'HELP', 'AID', 'SAVE'], correct: 0 },
+      { options: ['BOOK', 'PEN', 'TEACHER', 'DESK'], correct: 2 },
+      { options: ['TODAY', 'NOW', 'SOON', 'LATE'], correct: 0 },
+      { options: ['CAKE', 'CHOCOLATE', 'CANDY', 'FRUIT'], correct: 1 },
+      { options: ['HOME', 'HOUSE', 'FAMILY', 'ROOM'], correct: 2 }
+    ];
+
+    let currentQuizIndex = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+
+    function renderQuizQuestion() {
+      const container = document.getElementById('quiz-options');
+      const question = quizQuestions[currentQuizIndex];
+      container.innerHTML = '';
+      quizAnswered = false;
+      
+      document.getElementById('quiz-next').classList.add('hidden');
+      document.getElementById('quiz-feedback').textContent = '';
+      document.getElementById('quiz-current').textContent = currentQuizIndex + 1;
+      
+      question.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'audio-btn p-4 glass-card rounded-xl flex items-center justify-between hover:bg-white/10 transition';
+        btn.innerHTML = `
+          <span class="font-semibold">${option}</span>
+          <span class="text-xl" onclick="event.stopPropagation(); speak('${option}')">🔊</span>
+        `;
+        btn.onclick = () => checkQuizAnswer(index, btn);
+        container.appendChild(btn);
+      });
+    }
+
+    function checkQuizAnswer(index, btn) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      
+      const question = quizQuestions[currentQuizIndex];
+      const feedback = document.getElementById('quiz-feedback');
+      const buttons = document.querySelectorAll('#quiz-options button');
+      
+      buttons.forEach((b, i) => {
+        if (i === question.correct) {
+          b.classList.add('res-correct');
+        } else if (i === index && index !== question.correct) {
+          b.classList.add('res-wrong');
+        }
+      });
+      
+      if (index === question.correct) {
+        quizScore++;
+        document.getElementById('quiz-score').textContent = quizScore;
+        feedback.textContent = '🎉 ¡Correcto!';
+        feedback.className = 'mt-4 text-center text-lg font-semibold text-green-400';
+      } else {
+        feedback.textContent = `❌ La respuesta era: ${question.options[question.correct]}`;
+        feedback.className = 'mt-4 text-center text-lg font-semibold text-red-400';
+      }
+      
+      document.getElementById('quiz-next').classList.remove('hidden');
+    }
+
+    function nextQuizQuestion() {
+      currentQuizIndex++;
+      if (currentQuizIndex >= quizQuestions.length) {
+        const container = document.getElementById('quiz-options');
+        container.innerHTML = `<p class="col-span-2 text-2xl text-center">🏆 ¡Quiz Completado! Puntuación: ${quizScore}/10</p>`;
+        document.getElementById('quiz-next').classList.add('hidden');
+        document.getElementById('quiz-feedback').textContent = '';
+      } else {
+        renderQuizQuestion();
+      }
+    }
+
+    // Dictation
+    const dictationTarget = "A cup of coffee with a bit of sugar";
+
+    function playDictation() {
+      speak(dictationTarget);
+    }
+
+    function checkDictation() {
+      const input = document.getElementById('dictation-input').value.trim();
+      const result = document.getElementById('dictation-result');
+      const card = document.getElementById('dictation-card');
+      const title = document.getElementById('dictation-title');
+      const userAnswer = document.getElementById('dictation-user');
+      const correctAnswer = document.getElementById('dictation-correct');
+      const accuracy = document.getElementById('dictation-accuracy');
+      
+      result.classList.remove('hidden');
+      userAnswer.textContent = input || '(empty)';
+      correctAnswer.textContent = dictationTarget;
+      
+      const normalizedInput = input.toLowerCase().replace(/[^\w\s]/g, '');
+      const normalizedTarget = dictationTarget.toLowerCase().replace(/[^\w\s]/g, '');
+      
+      const similarity = calculateSimilarity(normalizedInput, normalizedTarget);
+      
+      if (similarity >= 0.9) {
+        card.className = 'glass-card p-4 border-l-4 border-green-500';
+        title.textContent = '🎉 ¡Excelente!';
+        title.className = 'font-semibold mb-2 text-green-400';
+      } else if (similarity >= 0.7) {
+        card.className = 'glass-card p-4 border-l-4 border-yellow-500';
+        title.textContent = '👍 ¡Buen intento!';
+        title.className = 'font-semibold mb-2 text-yellow-400';
+      } else {
+        card.className = 'glass-card p-4 border-l-4 border-red-500';
+        title.textContent = '📝 ¡Sigue practicando!';
+        title.className = 'font-semibold mb-2 text-red-400';
+      }
+      
+      accuracy.textContent = `Precisión: ${Math.round(similarity * 100)}%`;
+    }
+
+    function calculateSimilarity(str1, str2) {
+      const words1 = str1.split(' ').filter(w => w);
+      const words2 = str2.split(' ').filter(w => w);
+      
+      if (words2.length === 0) return 0;
+      
+      let matches = 0;
+      words1.forEach(word => {
+        if (words2.includes(word)) matches++;
+      });
+      
+      return matches / words2.length;
+    }
+
+    // Element SDK Integration
+    async function onConfigChange(newConfig) {
+      document.getElementById('app-title').textContent = newConfig.app_title || defaultConfig.app_title;
+      document.getElementById('contact-email').textContent = newConfig.contact_email || defaultConfig.contact_email;
+      document.getElementById('location-text').textContent = newConfig.location_text || defaultConfig.location_text;
+    }
+
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [
+          {
+            get: () => cfg.background_color || defaultConfig.background_color,
+            set: (value) => { cfg.background_color = value; if (window.elementSdk) window.elementSdk.setConfig({ background_color: value }); }
+          },
+          {
+            get: () => cfg.primary_color || defaultConfig.primary_color,
+            set: (value) => { cfg.primary_color = value; if (window.elementSdk) window.elementSdk.setConfig({ primary_color: value }); }
+          },
+          {
+            get: () => cfg.secondary_color || defaultConfig.secondary_color,
+            set: (value) => { cfg.secondary_color = value; if (window.elementSdk) window.elementSdk.setConfig({ secondary_color: value }); }
+          },
+          {
+            get: () => cfg.text_color || defaultConfig.text_color,
+            set: (value) => { cfg.text_color = value; if (window.elementSdk) window.elementSdk.setConfig({ text_color: value }); }
+          },
+          {
+            get: () => cfg.accent_color || defaultConfig.accent_color,
+            set: (value) => { cfg.accent_color = value; if (window.elementSdk) window.elementSdk.setConfig({ accent_color: value }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => cfg.font_family || 'Outfit',
+          set: (value) => { cfg.font_family = value; if (window.elementSdk) window.elementSdk.setConfig({ font_family: value }); }
+        },
+        fontSizeable: {
+          get: () => cfg.font_size || 16,
+          set: (value) => { cfg.font_size = value; if (window.elementSdk) window.elementSdk.setConfig({ font_size: value }); }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ['app_title', cfg.app_title || defaultConfig.app_title],
+        ['contact_email', cfg.contact_email || defaultConfig.contact_email],
+        ['location_text', cfg.location_text || defaultConfig.location_text]
+      ]);
+    }
+
+    // Initialize
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+      config = window.elementSdk.config || defaultConfig;
+    }
+
+    // Initialize theme and games
+    initTheme();
+    renderFinderWord();
+    renderQuizQuestion();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c564d12a4f257bd',t:'MTc2OTY2NDI0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
